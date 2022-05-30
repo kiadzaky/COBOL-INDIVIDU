@@ -71,7 +71,7 @@
                      PERFORM CREATE-RECORD
                   WHEN WS-Command = "R" OR WS-Command = "r"
                      PERFORM READ-RECORD
-                  WHEN WS-COMMAND = "U" OR WS-COMMAND = "U"
+                  WHEN WS-COMMAND = "U" OR WS-COMMAND = "u"
                      PERFORM UPDATE-RECORD
                   WHEN WS-COMMAND = "d" OR WS-COMMAND = "D"
                      PERFORM DELETE-RECORD
@@ -91,8 +91,16 @@
               ACCEPT NAMA
               DISPLAY "MASUKAN JABATAN : " NO ADVANCING
               ACCEPT JABATAN
-              MOVE PERSONAL TO F-Personal
-              PERFORM WRITE-RECORD.
+              IF NIK = ZERO OR NIK = SPACE OR NAMA = SPACE
+                     OR NAMA = ZERO OR JABATAN = SPACE OR JABATAN = ZERO
+                     DISPLAY "DATA JANGAN KOSONG"
+                     GO CREATE-RECORD
+              ELSE
+                     MOVE PERSONAL TO F-Personal
+                     PERFORM WRITE-RECORD
+                     DISPLAY "SUKSES TAMBAH DATA"
+              END-IF.
+
       *        CLOSE PERSONAL-IDX.
        READ-RECORD.
               DISPLAY "READ RECORD PRESENT".
